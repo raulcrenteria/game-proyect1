@@ -25,10 +25,7 @@ class Player1{
         if(frames % 10 === 0) this.image = this.image === this.image1 ? this.image2 : this.image1;
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
-
 }
-
-// que pedo, tienes lo de hangouts?
 
 
 class Background{
@@ -64,46 +61,119 @@ class Enemy{
         this.image1 = new Image();
         this.image1.src = "./enemies/trump-enemy1.png";
         this.image2 = new Image();
-        this.image2.src = "./enemies/trump-enemy2.png";
-        this.image = this.image1;
+        this.image2.src = "./enemies/trump-enemy2.png";  // COPY PASTE
+        this.image = this.image1;                          // COPY PASTE
     }
-    draw(){
+    draw() {
          if(frames %10 === 0) this.x -= 15;
-        if(frames % 10 === 0) this.image = this.image === this.image1 ? this.image2 : this.image1;
-        ctx.drawImage(this.image1, this.x, this.y, this.width, this.height)
+       /* COPY PASTE*/ if(frames % 10 === 0) this.image = this.image === this.image1 ? this.image2 : this.image1;
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+    }
+}
+
+var distancia = 85
+var isFiring = false
+var bulletTimer
+var startFire = (isFire) => {
+    if (!isFire) {
+        isFiring = false
+        distancia = 85
+        return clearInterval(bulletTimer)
+    }
+
+    isFiring = true
+    bulletTimer = setInterval(() => {
+        distancia += 5
+    }, 1000/60)
+}
+
+class Bullet{
+    constructor(){
+        this.x = Player1.width;
+        this.y = 304; 
+        this.width = 55;
+        this.height = 65;
+        this.image = new Image();
+        this.image.src = "./extras/bullet.png";
+    }
+    draw() {
+        ctx.drawImage(this.image, distancia, this.y, this.width, this.height)
+    }
+    collision(item){
+        return (distancia < item.x + item.width) &&
+            (distancia + this.width > item.x) &&
+            (this.y < item.y + item.height) &&
+            (this.y + this.height > item.y);
+    }
+    fire() {
+        startFire(true)
+    }
+    reload () {
+        isReloaded = true
+        // ctx.drawImage(this.image, distancia, this.y, this.width, this.height)
     }
 }
 
 var mario = new Player1();
 var fondo = new Background();
 var enemy = new Enemy();
+var bullet = new Bullet();
+// setInterval(() => {
+//     newBullet = mario.recargar();
+//     if (newBullet) {
+//         newBullet.draw();
+//     }
+// }, 1000/60);
 
 /* mario.image.onload = function(){
     mario.draw();
 } */
 
 var frames = 0;
+var isReloaded = false
+var nextBullet = new Bullet()
 var interval = setInterval(function(){
     frames++;
     ctx.clearRect(0, 0, 1150, 600);
     fondo.draw();
     mario.draw();
-    // enemy.draw();
+    enemy.draw();
     generateEnemies();
     drawEnemies();
+    if (isReloaded) {
+        nextBullet.draw()
+    }
+    bullet.draw();
 }, 1000/60);
 
 addEventListener("keydown", function(e){
     if(e.keyCode === 32){
-        mario.y -= 80;
+        mario.y -= 85;
     }
 })
 
+addEventListener("keydown", e => {
+    if (e.keyCode === 68) {
+        if (!isFiring) {
+            bullet.fire()
+        }
+    }
+})
+
+addEventListener("keydown", e => {
+    if (e.keyCode === 82) {
+        bullet.reload()
+        startFire(false)
+    }
+}) 
+
+
 var enemies = [];
 function generateEnemies(){
-    if(frames %100 === 0 || frames %70 === 0 || frames %170 === 0){
+    if(frames % 500 === 0 || frames % 800 === 0 || frames % 1000 === 0){
         let enemy = new Enemy();
         enemies.push(enemy);
+        //¿? 
     }
 }
 
@@ -113,5 +183,15 @@ function drawEnemies(){
         if(mario.collision(enemy)){
             fondo.gameOver();
         }
+        if (bullet.collision(enemy)) {
+            enemy.width = 0
+            enemy.height = 0
+            enemy.x = 0
+            enemy.y = 0
+            // distancia = 0
+            // bullet.reload()
+            startFire(false)
+        }
     })
 }
+// y ahora?
