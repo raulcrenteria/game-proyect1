@@ -1,7 +1,5 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-//ya está
-//pudiste verlo en accion?
 
 class Player1{
     constructor(){
@@ -29,6 +27,9 @@ class Player1{
     }
 
 }
+
+// que pedo, tienes lo de hangouts?
+
 
 class Background{
     constructor(){
