@@ -147,7 +147,7 @@ var interval = setInterval(function(){
     ctx.clearRect(0, 0, 1150, 600);
     fondo.draw();
     mario.draw();
-    enemy.draw();
+//    enemy.draw();
     generateEnemies();
     drawEnemies();
     if (isReloaded && nextBullet.disparda) {

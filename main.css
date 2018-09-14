@@ -1,0 +1,31 @@
+*{
+    background-color: #607D8B;
+    font: #FFFFFF;
+}
+
+#spacebar {
+    border-radius: 21px;
+}
+
+#r-letter {
+    border-radius: 50px;
+}
+
+#d-letter {
+    border-radius: 50px;
+}
+
+#contenedor {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ 
+}
+.inst{
+    padding: 20px;
+
+}
+
+#titulo{
+    text-align: center;
+}
