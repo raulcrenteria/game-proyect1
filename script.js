@@ -75,12 +75,14 @@ var distancia = 85
 var isFiring = false
 var bulletTimer
 var startFire = (isFire) => {
+    
     if (!isFire) {
+        
         isFiring = false
         distancia = 85
         return clearInterval(bulletTimer)
     }
-
+    
     isFiring = true
     bulletTimer = setInterval(() => {
         distancia += 5
@@ -89,15 +91,18 @@ var startFire = (isFire) => {
 
 class Bullet{
     constructor(){
-        this.x = Player1.width;
+        this.x = canvas.width;
         this.y = 304; 
         this.width = 55;
         this.height = 65;
         this.image = new Image();
+        this.disparda= false
         this.image.src = "./extras/bullet.png";
     }
     draw() {
-        ctx.drawImage(this.image, distancia, this.y, this.width, this.height)
+            ctx.drawImage(this.image, distancia, this.y, this.width, this.height)
+    
+      
     }
     collision(item){
         return (distancia < item.x + item.width) &&
@@ -106,10 +111,13 @@ class Bullet{
             (this.y + this.height > item.y);
     }
     fire() {
+
         startFire(true)
     }
     reload () {
         isReloaded = true
+        this.disparda=false
+        console.log("recar", this.disparda)
         // ctx.drawImage(this.image, distancia, this.y, this.width, this.height)
     }
 }
@@ -131,7 +139,7 @@ var bullet = new Bullet();
 
 var frames = 0;
 var isReloaded = false
-var nextBullet = new Bullet()
+var nextBullet = new Bullet();
 var interval = setInterval(function(){
     frames++;
     ctx.clearRect(0, 0, 1150, 600);
@@ -140,15 +148,20 @@ var interval = setInterval(function(){
     enemy.draw();
     generateEnemies();
     drawEnemies();
-    if (isReloaded) {
+    if (isReloaded && nextBullet.disparda) {
         nextBullet.draw()
     }
-    bullet.draw();
+    if(bullet.disparda){
+        bullet.draw();
+    }
+    
 }, 1000/60);
 
 addEventListener("keydown", function(e){
     if(e.keyCode === 32){
         mario.y -= 85;
+        bullet.y -= 85;
+
     }
 })
 
@@ -156,6 +169,9 @@ addEventListener("keydown", e => {
     if (e.keyCode === 68) {
         if (!isFiring) {
             bullet.fire()
+            bullet.disparda=true;
+            
+        console.log("dispare",bullet.disparda)
         }
     }
 })
@@ -163,6 +179,7 @@ addEventListener("keydown", e => {
 addEventListener("keydown", e => {
     if (e.keyCode === 82) {
         bullet.reload()
+    
         startFire(false)
     }
 }) 
@@ -188,6 +205,8 @@ function drawEnemies(){
             enemy.height = 0
             enemy.x = 0
             enemy.y = 0
+            nextBullet.disparda=false
+            bullet.disparda=false
             // distancia = 0
             // bullet.reload()
             startFire(false)
