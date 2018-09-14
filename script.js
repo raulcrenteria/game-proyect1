@@ -36,13 +36,15 @@ class Background{
         this.height = canvas.height;
         this.image = new Image();
         this.image.src = "./marioCanvas.png"; //FONDO CANVAS
+        this.imageGameOver = new Image();
+        this.imageGameOver.src ="./extras/game-over.png";
     }
 
     gameOver(){
         clearInterval(interval);
 
-        ctx.font = "80px Avenir";
-        ctx.fillText("GameOver", 350, 200);
+        ctx.drawImage(this.imageGameOver, 334, 105, 350, 200);  //new Image(); //
+        //ctx.fillText("GameOver", 350, 200);  //image.src = "./extras/game-over.png";
     }
     draw(){
         this.x--;
@@ -91,8 +93,8 @@ var startFire = (isFire) => {
 
 class Bullet{
     constructor(){
-        this.x = canvas.width;
-        this.y = 304; 
+        this.x = mario.width;
+        this.y = mario.y; 
         this.width = 55;
         this.height = 65;
         this.image = new Image();
@@ -160,7 +162,7 @@ var interval = setInterval(function(){
 addEventListener("keydown", function(e){
     if(e.keyCode === 32){
         mario.y -= 85;
-        bullet.y -= 85;
+        
 
     }
 })
@@ -209,7 +211,7 @@ function drawEnemies(){
             bullet.disparda=false
             // distancia = 0
             // bullet.reload()
-            startFire(false)
+            //startFire(false)
         }
     })
 }
