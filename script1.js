@@ -35,7 +35,7 @@ class Background{
         this.width = canvas.width;
         this.height = canvas.height;
         this.image = new Image();
-        this.image.src = "./marioCanvas.png"; //FONDO CANVAS
+        this.image.src = "./plataformas/MAP-FONDO.png"; //FONDO CANVAS
         this.imageGameOver = new Image();
         this.imageGameOver.src ="./extras/game-over.png";
         this.imageWin = new Image();
