@@ -4,7 +4,7 @@ var ctx = canvas.getContext("2d");
 class Player1{
     constructor(){
         this.x = 25;
-        this.y = 300;
+        this.y = 290;
         this.width = 60;
         this.height = 80;
         this.image1 = new Image();
@@ -35,7 +35,7 @@ class Background{
         this.width = canvas.width;
         this.height = canvas.height;
         this.image = new Image();
-        this.image.src = "./marioCanvas.png"; //FONDO CANVAS
+        this.image.src = "./plataformas/map-fondo.png"; //FONDO CANVAS
         this.imageGameOver = new Image();
         this.imageGameOver.src ="./extras/game-over.png";
     }
@@ -186,6 +186,15 @@ addEventListener("keydown", e => {
     }
 }) 
 
+addEventListener("keydown", e => {
+    if (e.keyCode === 81) {
+        location.reload();
+    
+        // startFire(false)
+    }
+}) 
+
+
 
 var enemies = [];
 function generateEnemies(){
@@ -216,3 +225,4 @@ function drawEnemies(){
     })
 }
 // y ahora?
+
